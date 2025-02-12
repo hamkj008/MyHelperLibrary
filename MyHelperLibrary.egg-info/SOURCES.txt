@@ -1,0 +1,11 @@
+setup.py
+MyHelperLibrary/__init__.py
+MyHelperLibrary/setup.py
+MyHelperLibrary.egg-info/PKG-INFO
+MyHelperLibrary.egg-info/SOURCES.txt
+MyHelperLibrary.egg-info/dependency_links.txt
+MyHelperLibrary.egg-info/requires.txt
+MyHelperLibrary.egg-info/top_level.txt
+MyHelperLibrary/Helpers/DataLabel.py
+MyHelperLibrary/Helpers/HelperMethods.py
+MyHelperLibrary/Helpers/__init__.py
