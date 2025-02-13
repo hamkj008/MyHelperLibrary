@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\ResizableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\CustomWindow.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\CustomWindow.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -13,14 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\LogController\\LogView.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\LogController\\LogView.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\ResizableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\setup.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -38,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 2046,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,7 +74,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "LogView.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\LogController\\LogView.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\LogController\\LogView.py",
@@ -82,12 +82,11 @@
               "RelativeToolTip": "MyHelperLibrary\\LogController\\LogView.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-02-12T08:06:54.26Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T08:06:54.26Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "LogController.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\LogController\\LogController.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\LogController\\LogController.py",
@@ -95,43 +94,43 @@
               "RelativeToolTip": "MyHelperLibrary\\LogController\\LogController.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-02-12T08:01:00.869Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T08:01:00.869Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "ResizableGrid.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizableGrid.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\ResizableGrid.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizableGrid.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\ResizableGrid.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABMBAAAAAAAAAAAcwB8BAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-02-10T06:38:52.211Z"
+              "WhenOpened": "2025-02-10T06:38:52.211Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "CustomWindow.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\CustomWindow.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\CustomWindow.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\CustomWindow.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\CustomWindow.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAACcAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-01-28T05:08:44.962Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "HelperMethods.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\HelperMethods.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\HelperMethods.py",
-              "ViewState": "AgIAAGwAAAAAAAAAAAAAAPUBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAF8BAAAAAAAAAAAAAPUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2024-08-20T12:54:02.969Z",
               "EditorCaption": ""
