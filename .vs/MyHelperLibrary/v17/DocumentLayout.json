@@ -104,7 +104,7 @@
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\ResizableGrid.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizableGrid.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\ResizableGrid.py",
-              "ViewState": "AgIAABMBAAAAAAAAAAAcwB8BAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB8BAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-02-10T06:38:52.211Z",
               "EditorCaption": ""
@@ -119,8 +119,7 @@
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\CustomWindow.py",
               "ViewState": "AgIAACQAAAAAAAAAAAAAACcAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-01-28T05:08:44.962Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-28T05:08:44.962Z"
             },
             {
               "$type": "Document",
@@ -132,8 +131,7 @@
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\HelperMethods.py",
               "ViewState": "AgIAAF8BAAAAAAAAAAAAAPUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-08-20T12:54:02.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-20T12:54:02.969Z"
             },
             {
               "$type": "Document",
@@ -182,6 +180,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{75504045-d02f-44e5-bf60-5f60df380e8b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             }
           ]
         }
