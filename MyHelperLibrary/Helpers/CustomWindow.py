@@ -7,6 +7,9 @@ from PySide6.QtGui import QIcon, QCursor
 from MyHelperLibrary.Helpers.HelperMethods import createLayoutFrame, createWidget
 
 
+# =============================================================================================
+
+
 
 class CustomWindow(QMainWindow):
 
@@ -17,7 +20,6 @@ class CustomWindow(QMainWindow):
         self.windowIcon = windowIcon
 
         self.setWindowFlags(Qt.FramelessWindowHint)
-        self.setMinimumSize(300, 100)
         self.menubarHeight = 25
 
         # Set the path for all files so that the directory is consistent no matter where the library is being run from
@@ -332,3 +334,19 @@ class CustomWindow(QMainWindow):
 
     # =============================================================================================
 
+    def handleChildResizeLimit(self, direction):
+        ic("handleChildResizeLimit")
+
+        # Stop the current resize operation
+        self.resizing = False
+    
+        # Reset cursor
+        self.setCursor(Qt.ArrowCursor)
+    
+        # If resizing vertically and hit a limit
+        if direction == "vertical" and self.resizeDirection in ["top", "bottom", "topLeft", "topRight", "bottomLeft", "bottomRight"]:
+            self.setGeometry(self.x(), self.y(), self.width(), self.height() + 10) # adds a little bounce back so it doesn't get stuck in the minimum
+    
+        # If resizing horizontally and hit a limit
+        elif direction == "horizontal" and self.resizeDirection in ["left", "right", "topLeft", "topRight", "bottomLeft", "bottomRight"]:
+            self.setGeometry(self.x(), self.y(), self.width() + 10, self.height()) # adds a little bounce back so it doesn't get stuck in the minimum

@@ -26,7 +26,7 @@
     <Compile Include="Helpers\DataLabel.py" />
     <Compile Include="Helpers\HelperMethods.py" />
     <Compile Include="LogController\LogController.py" />
-    <Compile Include="Helpers\ResizableGrid.py" />
+    <Compile Include="Helpers\ResizeableGrid.py" />
     <Compile Include="Helpers\__init__.py">
       <SubType>Code</SubType>
     </Compile>
