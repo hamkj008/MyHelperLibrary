@@ -288,7 +288,7 @@ def createErrorLayout(widget):
 
 
 # Creates a frame that also has a layout attached
-def createLayoutFrame(layoutType=None, objectName=None, spacing=None, sizePolicy: tuple[str, str]=None, align=None, margins: tuple[int, int, int, int]=None):
+def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizePolicy: tuple[str, str]=None, align=None, margins: tuple[int, int, int, int]=None):
     
     frame = QFrame(objectName=objectName)
     
@@ -301,7 +301,7 @@ def createLayoutFrame(layoutType=None, objectName=None, spacing=None, sizePolicy
     else:
         layout = QHBoxLayout()
         
-    if spacing:
+    if spacing or spacing == 0:
         layout.setSpacing(spacing)
 
     if sizePolicy:

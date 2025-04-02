@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizeableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\ResizeableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\CustomWindow.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\CustomWindow.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\DataLabel.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\DataLabel.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizeableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\ResizeableGrid.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\HelperMethods.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\DataLabel.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|solutionrelative:MyHelperLibrary\\Helpers\\DataLabel.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F0EE973C-F789-4519-8985-C5B1453037D2}|MyHelperLibrary\\MyHelperLibrary.pyproj|E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\LogController\\LogController.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -38,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 2046,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ResizeableGrid.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\ResizeableGrid.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\ResizeableGrid.py",
@@ -106,8 +106,7 @@
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\ResizeableGrid.py",
               "ViewState": "AgIAANIAAAAAAAAAAAAAANcAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-02-10T06:38:52.211Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-10T06:38:52.211Z"
             },
             {
               "$type": "Document",
@@ -117,25 +116,27 @@
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\CustomWindow.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\CustomWindow.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\CustomWindow.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-01-28T05:08:44.962Z"
+              "WhenOpened": "2025-01-28T05:08:44.962Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "HelperMethods.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\HelperMethods.py",
               "ToolTip": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\HelperMethods.py",
               "RelativeToolTip": "MyHelperLibrary\\Helpers\\HelperMethods.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPUBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAF4BAAAAAAAAAAAAAC8BAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-08-20T12:54:02.969Z"
+              "WhenOpened": "2024-08-20T12:54:02.969Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DataLabel.py",
               "DocumentMoniker": "E:\\MyITstuff\\ProgrammingIDEs\\VisualStudio\\Python\\Projects\\MyHelperLibrary\\MyHelperLibrary\\Helpers\\DataLabel.py",
               "RelativeDocumentMoniker": "MyHelperLibrary\\Helpers\\DataLabel.py",
