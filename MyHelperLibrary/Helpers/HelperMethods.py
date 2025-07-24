@@ -9,6 +9,74 @@ from PySide6.QtGui import QPixmap
 
 # ========================================================================================
 
+    
+""" A function factory wrapper that serves to bundle the dependent classes 
+    without having to include them in the parameter list every time displayView is called.
+    Create the wrapper first: displayView = createDiplayView(viewController, stackedWidget, viewList),
+    then use like a normal method: self.viewController.displayView("theView")"""
+
+def createDisplayView(viewController, stackedWidget, viewList):
+    
+    viewController  = viewController
+    stackedWidget   = stackedWidget
+    viewList        = viewList
+
+
+    """Dynamically calls a method to display a view.    
+        @viewToDisplay: The name of the view to display (e.g., 'PreferencesView').
+        @args: Positional arguments to pass to the display method.
+        @kwargs: Keyword arguments to pass to the display method. 
+        Put 'newWindow' in kwargs for a new window to be opened instead of replacing current stacked widget view """
+
+    def displayViewWrapper(viewToDisplay, *args, **kwargs):
+        
+        # Construct the method name
+        methodName  = f"display{viewToDisplay}"
+        
+        # Use getattr to get the appropriate method
+        method      = getattr(viewController, methodName, None)
+        
+        newWindow   = kwargs.pop('newWindow', False)
+        
+        if method and callable(method):
+            if not newWindow:
+                clearStackedLayout(viewList, stackedWidget)        # Clear the layout
+
+            method(*args, **kwargs)                                                 # display the view 
+            # self.menuController.refreshContextMenus()       # refresh the menus for correct context
+            
+        else:
+            ic(f"No method found for display{viewToDisplay}")
+         
+    return displayViewWrapper
+
+# ========================================================================================
+    
+""" A function factory wrapper that serves to bundle the dependent classes 
+    without having to include them in the parameter list every time displayView is called. """
+
+def createCloseView(viewController):
+
+    viewController = viewController
+
+    def closeViewWrapper(self, viewToDisplay):
+        
+        # Construct the method name
+        methodName  = f"close{viewToDisplay}"
+        
+        # Use getattr to get the appropriate method
+        method      = getattr(self, methodName, None)
+        
+        if method and callable(method):
+            method()                                   # display the view
+        
+        else:
+            ic(f"No method found for close{viewToDisplay}")
+            
+    return closeViewWrapper
+
+# ========================================================================================
+
 
 """ Creates a pixmap from a given filename, connecting the filepath to an Images folder in the directory. 
 Sets to the given width and height"""
