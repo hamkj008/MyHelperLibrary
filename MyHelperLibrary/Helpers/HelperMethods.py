@@ -77,6 +77,41 @@ def createCloseView(viewController):
 
 # ========================================================================================
 
+""" For updates and versioning the path to installation needs to be known before the version can be replaced.
+        This creates a JSON file in the app dirs directory; a platform specific path where user configuration files can be stored.
+        For windows: 'C:\\Users\\<user>\\AppData\\Local\\<appAuthor>\\<appName>'
+        The version can then be compared and then the new version can be replaced at the installation path. Will run once on first install """
+
+def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
+
+    if firstTimeDatabase:
+        import pathlib
+        import appdirs
+
+        # Get the full path to the program installation
+        programPath     = programPath
+        configFilePath  = os.path.join(programPath, "JSON/config.json")
+
+
+        # Write a configuration file to store the path to the installation. 
+        # Store the file in the platform-appropriate user configuration directory using appdirs
+        appName   = appName
+        appAuthor = "Kieran" 
+    
+        installationPath = pathlib.Path(appdirs.user_config_dir(appName, appAuthor))
+        os.makedirs(installationPath, exist_ok=True)
+    
+        filePath = installationPath / "installation_path.json"
+
+        # Create the data to be stored in the file
+        pathData = {"installation_config_file_location" : configFilePath}
+    
+        # Write the file
+        writeJSONData(filePath, pathData)
+
+
+# ========================================================================================
+
 
 """ Creates a pixmap from a given filename, connecting the filepath to an Images folder in the directory. 
 Sets to the given width and height"""
