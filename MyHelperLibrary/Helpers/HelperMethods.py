@@ -1,6 +1,7 @@
 from icecream import ic
 import os
 import json
+import sys
 
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QDateEdit, QPushButton, QSizePolicy, QVBoxLayout, QFrame, QDialog, QMessageBox, QGridLayout
 from PySide6.QtCore import Qt, QDate
@@ -86,7 +87,7 @@ def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
 
     if firstTimeDatabase:
         import pathlib
-        import appdirs
+        from platformdirs import user_config_dir
 
         # Get the full path to the program installation
         programPath     = programPath
@@ -98,7 +99,7 @@ def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
         appName   = appName
         appAuthor = "Kieran" 
     
-        installationPath = pathlib.Path(appdirs.user_config_dir(appName, appAuthor))
+        installationPath = pathlib.Path(user_config_dir(appName, appAuthor))
         os.makedirs(installationPath, exist_ok=True)
     
         filePath = installationPath / "installation_path.json"
@@ -133,7 +134,7 @@ def loadImage(fileName, width, height):
 
 
 # Create a dictionary for all the records returned from a model query
-def createDictionary(rows, cursorDescription):
+def createDictionaryList(rows, cursorDescription) -> list:
         
     # -- Create dictionary --
     columnNames = [description[0] for description in cursorDescription]
@@ -151,16 +152,15 @@ def createDictionary(rows, cursorDescription):
         resultsDictList.append(rowDict)
 
     return resultsDictList
-     
 
 # ========================================================================================
 
 
 # Create a dictionary for a single record
-def createSingleRecordDictionary(category, cursorDescription):
+def createSingleRecordDictionary(category, cursorDescription) -> dict:
     
     columnNames = [description[0] for description in cursorDescription]
-       
+    
     rowDict = {}
 
     if category is not None:
@@ -173,7 +173,7 @@ def createSingleRecordDictionary(category, cursorDescription):
 # ========================================================================================
 
 
-def createWidget(widgetType, text=None, objectName=None, toolTip=None, sizePolicy: tuple[str, str]=None, align=None):
+def createWidget(widgetType: str, text: str=None, objectName=None, toolTip=None, sizePolicy: tuple[str, str]=None, align=None):
     
     item = None
     if widgetType == "label":
@@ -191,7 +191,7 @@ def createWidget(widgetType, text=None, objectName=None, toolTip=None, sizePolic
         
     elif widgetType == "lineEdit":
         item = QLineEdit(objectName=objectName)
-     
+    
     if toolTip:
         item.setToolTip(toolTip)
 
@@ -279,10 +279,11 @@ def removeClassFromLayout(layout, removeClass: type):
 
 # ========================================================================================
   
-
-# Customizable dialog box
 def createCustomDialog(title, message, width, height, style):
-    
+    """
+        Customizable dialog box
+    """
+
     dialog = QDialog(objectName="dialog")
     dialog.setWindowTitle(title)
     dialog.setMinimumSize(width, height)
@@ -314,9 +315,7 @@ def createCustomDialog(title, message, width, height, style):
     # Show the dialog
     dialog.exec()      
     
-
 # ========================================================================================
-
 
 def createChoiceDialog(windowTitle, message):
     
@@ -331,9 +330,7 @@ def createChoiceDialog(windowTitle, message):
         
     return ret == QMessageBox.Ok
 
-
 # ========================================================================================
-
 
 def createCustomChoiceDialog(title, message, width, height, style):
 
@@ -372,9 +369,10 @@ def createCustomChoiceDialog(title, message, width, height, style):
 
 # ========================================================================================
 
-
-# Creates a frame containing an error frame, that error messages can be added to
 def createErrorLayout(widget):
+    """ 
+        Creates a frame containing an error frame, that error messages can be added to
+    """
     
     frame = createLayoutFrame("v", margins=(0,0,0,0)) 
     frame.layout().setSpacing(1)
@@ -385,14 +383,14 @@ def createErrorLayout(widget):
     frame.layout().addWidget(widget)
 
     return errorFrame, frame
-
     
 # ========================================================================================
 
-
-# Creates a frame that also has a layout attached
 def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizePolicy: tuple[str, str]=None, align=None, margins: tuple[int, int, int, int]=None):
-    
+    """
+        Creates a frame that also has a layout attached
+    """
+
     frame = QFrame(objectName=objectName)
     
     if layoutType == "vertical" or layoutType == "v":
@@ -423,12 +421,12 @@ def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizeP
 
 # ========================================================================================
 
-
-# Creates a dictionary composed of a key dictionary and a value dictionary. 
-# The keys are mapped to values and the values are mapped to keys, enabling search both ways
-
 def createTwoWayDictionary(dictionary):
-    
+    """ 
+        Creates a dictionary composed of a key dictionary and a value dictionary. 
+        The keys are mapped to values and the values are mapped to keys, enabling search both ways 
+    """
+
     k = {}
     v = {}
     
@@ -443,10 +441,8 @@ def createTwoWayDictionary(dictionary):
             ic("cant key dictionary")
         
     return custDict
-    
 
 # ========================================================================================
-
 
 def keyCheck(value):   
     try:
@@ -455,9 +451,7 @@ def keyCheck(value):
     except TypeError:
         return False 
     
-
 # ========================================================================================
-
 
 def getSizePolicyMap(sizePolicy):
     policyMap = {"fixed" : QSizePolicy.Fixed, "expanding" : QSizePolicy.Expanding}
@@ -467,18 +461,14 @@ def getSizePolicyMap(sizePolicy):
             
     return customSizePolicy
 
-
 # ========================================================================================
-
 
 def getAlignMap(alignment):
     
     align = {"left" : Qt.AlignLeft, "right" : Qt.AlignRight, "center" : Qt.AlignCenter}
     return align[alignment]
 
-
 # ========================================================================================
-
 
 def readJSONData(filePath):
     data = []
@@ -490,10 +480,8 @@ def readJSONData(filePath):
                 return data  # Start with an empty list if the file is empty or invalid
     else:
         return data  # Create a new list if the file does not exist
-    
 
 # ========================================================================================
-
 
 def writeJSONData(filePath, data):
     
@@ -501,7 +489,6 @@ def writeJSONData(filePath, data):
     with open(filePath, 'w') as file:
         json.dump(data, file, indent=4)
         
-
 # ========================================================================================
 
 
@@ -533,7 +520,10 @@ def createMenu(parentMenu, menuName, actionList):
         else:
             action = menu.addAction(f"{item['actionName']}")
             action.setShortcut(f"{item.get('shortcut', '')}")
-            action.triggered.connect(item.get("trigger"))
+
+            trigger = item.get("trigger")
+            if trigger:
+                action.triggered.connect(trigger)
         
     return menu
     
@@ -556,7 +546,10 @@ def addActionToMenu(menu, actionList):
         else:
             action = menu.addAction(f"{item['actionName']}")
             action.setShortcut(f"{item.get('shortcut', '')}")
-            action.triggered.connect(item.get("trigger"))
+
+            trigger = item.get("trigger")
+            if trigger:
+                action.triggered.connect(trigger)
         
     return menu
 
@@ -686,3 +679,16 @@ def checkIconPath(icon_path):
 
 
 # ========================================================================================       
+
+def getCurrentFunction():
+    """ Must be placed inside a method within a class. Allows printing of the method name without needing to name the method directly. 
+    This means if the method is renamed the reference is automatically updated, providing less coupling """
+
+    frame = sys._getframe(1)
+    function_name = frame.f_code.co_name
+
+    if 'self' in frame.f_locals:
+        obj = frame.f_locals['self']
+        return f"{obj.__class__.__name__}.{function_name}"
+
+    return None

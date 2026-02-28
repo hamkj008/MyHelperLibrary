@@ -6,6 +6,9 @@ MyHelperLibrary.egg-info/SOURCES.txt
 MyHelperLibrary.egg-info/dependency_links.txt
 MyHelperLibrary.egg-info/requires.txt
 MyHelperLibrary.egg-info/top_level.txt
+MyHelperLibrary/Helpers/CustomWindow.py
 MyHelperLibrary/Helpers/DataLabel.py
 MyHelperLibrary/Helpers/HelperMethods.py
+MyHelperLibrary/Helpers/Mixins.py
+MyHelperLibrary/Helpers/ResizeableGrid.py
 MyHelperLibrary/Helpers/__init__.py

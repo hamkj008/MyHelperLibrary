@@ -25,6 +25,8 @@
     <Compile Include="Helpers\CustomWindow.py" />
     <Compile Include="Helpers\DataLabel.py" />
     <Compile Include="Helpers\HelperMethods.py" />
+    <Compile Include="Helpers\Mixins.py" />
+    <Compile Include="LogController\Logger.py" />
     <Compile Include="LogController\LogController.py" />
     <Compile Include="Helpers\ResizeableGrid.py" />
     <Compile Include="Helpers\__init__.py">

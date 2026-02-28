@@ -1,11 +1,121 @@
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QDateEdit, QPushButton, QSizePolicy, QVBoxLayout, QFrame, QDialog, QMessageBox, QDialogButtonBox
+from icecream import ic
+import os
+import json
+import sys
+
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QDateEdit, QPushButton, QSizePolicy, QVBoxLayout, QFrame, QDialog, QMessageBox, QGridLayout
 from PySide6.QtCore import Qt, QDate
 from PySide6.QtGui import QPixmap
-import os
-from icecream import ic
+
 
 # ========================================================================================
 
+    
+""" A function factory wrapper that serves to bundle the dependent classes 
+    without having to include them in the parameter list every time displayView is called.
+    Create the wrapper first: displayView = createDiplayView(viewController, stackedWidget, viewList),
+    then use like a normal method: self.viewController.displayView("theView")"""
+
+def createDisplayView(viewController, stackedWidget, viewList):
+    
+    viewController  = viewController
+    stackedWidget   = stackedWidget
+    viewList        = viewList
+
+
+    """Dynamically calls a method to display a view.    
+        @viewToDisplay: The name of the view to display (e.g., 'PreferencesView').
+        @args: Positional arguments to pass to the display method.
+        @kwargs: Keyword arguments to pass to the display method. 
+        Put 'newWindow' in kwargs for a new window to be opened instead of replacing current stacked widget view """
+
+    def displayViewWrapper(viewToDisplay, *args, **kwargs):
+        
+        # Construct the method name
+        methodName  = f"display{viewToDisplay}"
+        
+        # Use getattr to get the appropriate method
+        method      = getattr(viewController, methodName, None)
+        
+        newWindow   = kwargs.pop('newWindow', False)
+        
+        if method and callable(method):
+            if not newWindow:
+                clearStackedLayout(viewList, stackedWidget)        # Clear the layout
+
+            method(*args, **kwargs)                                                 # display the view 
+            # self.menuController.refreshContextMenus()       # refresh the menus for correct context
+            
+        else:
+            ic(f"No method found for display{viewToDisplay}")
+         
+    return displayViewWrapper
+
+# ========================================================================================
+    
+""" A function factory wrapper that serves to bundle the dependent classes 
+    without having to include them in the parameter list every time displayView is called. """
+
+def createCloseView(viewController):
+
+    viewController = viewController
+
+    def closeViewWrapper(self, viewToDisplay):
+        
+        # Construct the method name
+        methodName  = f"close{viewToDisplay}"
+        
+        # Use getattr to get the appropriate method
+        method      = getattr(self, methodName, None)
+        
+        if method and callable(method):
+            method()                                   # display the view
+        
+        else:
+            ic(f"No method found for close{viewToDisplay}")
+            
+    return closeViewWrapper
+
+# ========================================================================================
+
+""" For updates and versioning the path to installation needs to be known before the version can be replaced.
+        This creates a JSON file in the app dirs directory; a platform specific path where user configuration files can be stored.
+        For windows: 'C:\\Users\\<user>\\AppData\\Local\\<appAuthor>\\<appName>'
+        The version can then be compared and then the new version can be replaced at the installation path. Will run once on first install """
+
+def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
+
+    if firstTimeDatabase:
+        import pathlib
+        import appdirs
+
+        # Get the full path to the program installation
+        programPath     = programPath
+        configFilePath  = os.path.join(programPath, "JSON/config.json")
+
+
+        # Write a configuration file to store the path to the installation. 
+        # Store the file in the platform-appropriate user configuration directory using appdirs
+        appName   = appName
+        appAuthor = "Kieran" 
+    
+        installationPath = pathlib.Path(appdirs.user_config_dir(appName, appAuthor))
+        os.makedirs(installationPath, exist_ok=True)
+    
+        filePath = installationPath / "installation_path.json"
+
+        # Create the data to be stored in the file
+        pathData = {"installation_config_file_location" : configFilePath}
+    
+        # Write the file
+        writeJSONData(filePath, pathData)
+
+
+# ========================================================================================
+
+
+""" Creates a pixmap from a given filename, connecting the filepath to an Images folder in the directory. 
+Sets to the given width and height"""
 
 def loadImage(fileName, width, height):
         
@@ -23,6 +133,7 @@ def loadImage(fileName, width, height):
 # ========================================================================================
 
 
+# Create a dictionary for all the records returned from a model query
 def createDictionary(rows, cursorDescription):
         
     # -- Create dictionary --
@@ -73,14 +184,14 @@ def createWidget(widgetType, text=None, objectName=None, toolTip=None, sizePolic
         item = QPushButton(text, objectName=objectName)
         
     elif widgetType == "date":
-        item = QDateEdit()
+        item = QDateEdit(objectName=objectName)
         item.setCalendarPopup(True)
         item.setDisplayFormat("dd-MMM-yyyy")
         currentDate = QDate.currentDate()
         item.setDate(currentDate)
         
     elif widgetType == "lineEdit":
-        item = QLineEdit()
+        item = QLineEdit(objectName=objectName)
      
     if toolTip:
         item.setToolTip(toolTip)
@@ -89,14 +200,8 @@ def createWidget(widgetType, text=None, objectName=None, toolTip=None, sizePolic
         item.setSizePolicy(getSizePolicyMap(sizePolicy))
         
     if align:
-        if align == "left":
-            item.setAlignment(Qt.AlignLeft)
-        
-        elif align == "right":
-            item.setAlignment(Qt.AlignRight)
-        
-        elif align == "center":
-            item.setAlignment(Qt.AlignCenter)
+        item.setAlignment(getAlignMap(align))
+
         
     return item
 
@@ -105,7 +210,8 @@ def createWidget(widgetType, text=None, objectName=None, toolTip=None, sizePolic
     
     
 def clearLayout(layout):
-    
+    ic("clearLayout")
+
     while layout.count():
         item = layout.takeAt(0)
         if item.widget():
@@ -114,46 +220,103 @@ def clearLayout(layout):
 
 # ========================================================================================
 
-# Customizable dialog box
-def createDialog(title, message, width, height):
+
+def clearStackedLayout(viewList, stackedWidget):
+    ic("clearStackedLayout")
+   
+    for key in viewList.keys():
+        viewList[key] = None
+
+    while stackedWidget.count():
+        widget = stackedWidget.widget(0)
+        stackedWidget.removeWidget(widget)
+        widget.deleteLater()      
+                
+
+# ========================================================================================
+  
+
+""" Removes a specific widgetfrom a layout """
+def removeWidgetFromLayout(layout, removeWidget):
     
+    # Iterate through the items in the layout
+    item_count = layout.count()
+    
+    for i in range(item_count):
+        item = layout.itemAt(i)
+        
+        if item.widget() == removeWidget:
+            # Remove the widget from the layout
+            layout.removeWidget(removeWidget)
+            
+            # Optionally, delete the widget
+            removeWidget.deleteLater()
+            
+            # Break the loop as we found the widget
+            break
+        
+
+# ========================================================================================
+  
+
+""" Removes any instances of a class from a layout """
+def removeClassFromLayout(layout, removeClass: type):
+    
+    # Iterate through the items in the layout
+    item_count = layout.count()
+    
+    for i in range(item_count):
+        item = layout.itemAt(i)
+        widget = item.widget()
+        
+        if item.widget() is not None and isinstance(widget, removeClass):
+            
+            # Remove the widget from the layout
+            layout.removeWidget(widget)           
+            widget.deleteLater()
+
+            continue   
+        
+
+# ========================================================================================
+  
+def createCustomDialog(title, message, width, height, style):
+    """
+        Customizable dialog box
+    """
+
     dialog = QDialog(objectName="dialog")
     dialog.setWindowTitle(title)
     dialog.setMinimumSize(width, height)
     
     # ------ Set Style ------
-    dialog.setStyleSheet(getDialogStyle())
+    dialog.setStyleSheet(style)
     # -------------------------------
 
     # Create a layout and add widgets
-    layout = QVBoxLayout()
-
+    vbox = QVBoxLayout()
+    
+    frame = createLayoutFrame("v", align="center")
     # Add a label
     messageLabel = createWidget("label", text=message, align="center")
-    layout.addWidget(messageLabel)
+    frame.layout().addWidget(messageLabel)
 
     # Add an OK button
     okBtn = createWidget("button", text="Ok", sizePolicy=("fixed", "fixed"))
-    okBtn.clicked.connect(dialog.accept)  # Close the dialog when the button is clicked
+    okBtn.clicked.connect(dialog.accept)  # Close the dialog when the button is clicked 
+    btnFrame = createLayoutFrame(align="center")    
+    btnFrame.layout().addWidget(okBtn)
     
-    frame = QFrame()
-    frameLayout = QVBoxLayout()
-    frameLayout.addWidget(okBtn)
-    frameLayout.setAlignment(Qt.AlignCenter)
-    frame.setLayout(frameLayout)
-    
-    
-    layout.addWidget(frame)
+    frame.layout().addWidget(btnFrame)
+    vbox.addWidget(frame)
     
     # Set the layout for the dialog
-    dialog.setLayout(layout)
+    dialog.setLayout(vbox)
 
     # Show the dialog
     dialog.exec()      
     
-
 # ========================================================================================
-
 
 def createChoiceDialog(windowTitle, message):
     
@@ -168,85 +331,87 @@ def createChoiceDialog(windowTitle, message):
         
     return ret == QMessageBox.Ok
 
-
 # ========================================================================================
 
+def createCustomChoiceDialog(title, message, width, height, style):
 
-def createCustomChoiceDialog(title, message, width, height):
-    
-    dialog = QDialog(objectName="choiceDialog")
+    dialog = QDialog(objectName="dialog")
     dialog.setWindowTitle(title)
     dialog.setMinimumSize(width, height)
     
     # ---- SetUI ---
-    dialog.setStyleSheet(getDialogStyle())
+    dialog.setStyleSheet(style)
     # --------------
 
     # Create a layout and add widgets
-    layout = QVBoxLayout()
-
+    frame = createLayoutFrame("v", align="center", margins=(0,0,0,0))
+    frame.layout().setSpacing(50)
     # Add a label
     messageLabel = createWidget("label", text=message, align="center")
-    layout.addWidget(messageLabel)
+    frame.layout().addWidget(messageLabel)
 
     # Create a QDialogButtonBox with OK and Cancel buttons
-    buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-    buttonBox.setDefaultButton(buttonBox.button(QDialogButtonBox.Cancel))  
-    
-    # Add the button box to the layout
-    layout.addWidget(buttonBox)
- 
+    buttonFrame = createLayoutFrame(align="center",  margins=(0,0,0,0))
+    okBtn = createWidget("button", text="Ok")
+    cancelBtn = createWidget("button", text="Cancel")
+    buttonFrame.layout().addWidget(okBtn)
+    buttonFrame.layout().addWidget(cancelBtn)
+    frame.layout().addWidget(buttonFrame)
+
     # Connect signals to slots
-    buttonBox.accepted.connect(dialog.accept)
-    buttonBox.rejected.connect(dialog.reject)
+    okBtn.clicked.connect(dialog.accept)
+    cancelBtn.clicked.connect(dialog.reject)
     
     # Set the layout for the dialog
-    dialog.setLayout(layout)
+    dialog.setLayout(frame.layout())
         
     return dialog.exec() == QDialog.Accepted
 
 
 # ========================================================================================
 
-# Creates a frame containing an error frame, that error messages can be added to
 def createErrorLayout(widget):
+    """ 
+        Creates a frame containing an error frame, that error messages can be added to
+    """
     
-    vboxFrame = QFrame()
+    frame = createLayoutFrame("v", margins=(0,0,0,0)) 
+    frame.layout().setSpacing(1)
     
-    vbox = QVBoxLayout()  
-    vbox.setSpacing(1)
-    vbox.setContentsMargins(0,0,0,0)
-    vboxFrame.setLayout(vbox)
-    
-    errorFrame = QFrame()
-    
-    hboxLayout = QHBoxLayout()
-    hboxLayout.setContentsMargins(0,0,0,0)
-    errorFrame.setLayout(hboxLayout)
+    errorFrame = createLayoutFrame(objectName="errorFrame", margins=(0,0,0,0))
 
-    vbox.addWidget(errorFrame)
-    vbox.addWidget(widget)
+    frame.layout().addWidget(errorFrame)
+    frame.layout().addWidget(widget)
 
-    return errorFrame, vboxFrame
-
+    return errorFrame, frame
     
 # ========================================================================================
 
+def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizePolicy: tuple[str, str]=None, align=None, margins: tuple[int, int, int, int]=None):
+    """
+        Creates a frame that also has a layout attached
+    """
 
-# Creates a frame that also has a layout attached
-def createLayoutFrame(direction=None, sizePolicy: tuple[str, str]=None, margins: tuple[int, int, int, int]=None):
+    frame = QFrame(objectName=objectName)
     
-    frame = QFrame()
-    
-    if direction or direction == "vertical" or direction == "v":
+    if layoutType == "vertical" or layoutType == "v":
         layout = QVBoxLayout()
-        
+     
+    elif layoutType == "g" or layoutType == "grid":
+        layout = QGridLayout()
+
     else:
         layout = QHBoxLayout()
         
+    if spacing or spacing == 0:
+        layout.setSpacing(spacing)
+
     if sizePolicy:
         frame.setSizePolicy(getSizePolicyMap(sizePolicy))
        
+    if align:
+        layout.setAlignment(getAlignMap(align))
+        
     if margins:
         layout.setContentsMargins(margins[0], margins[1], margins[2], margins[3])
 
@@ -257,12 +422,12 @@ def createLayoutFrame(direction=None, sizePolicy: tuple[str, str]=None, margins:
 
 # ========================================================================================
 
-
-# Creates a dictionary composed of a key dictionary and a value dictionary. 
-# The keys are mapped to values and the values are mapped to keys, enabling search both ways
-
 def createTwoWayDictionary(dictionary):
-    
+    """ 
+        Creates a dictionary composed of a key dictionary and a value dictionary. 
+        The keys are mapped to values and the values are mapped to keys, enabling search both ways 
+    """
+
     k = {}
     v = {}
     
@@ -277,10 +442,8 @@ def createTwoWayDictionary(dictionary):
             ic("cant key dictionary")
         
     return custDict
-    
 
 # ========================================================================================
-
 
 def keyCheck(value):   
     try:
@@ -289,9 +452,7 @@ def keyCheck(value):
     except TypeError:
         return False 
     
-
 # ========================================================================================
-
 
 def getSizePolicyMap(sizePolicy):
     policyMap = {"fixed" : QSizePolicy.Fixed, "expanding" : QSizePolicy.Expanding}
@@ -301,20 +462,233 @@ def getSizePolicyMap(sizePolicy):
             
     return customSizePolicy
 
+# ========================================================================================
+
+def getAlignMap(alignment):
+    
+    align = {"left" : Qt.AlignLeft, "right" : Qt.AlignRight, "center" : Qt.AlignCenter}
+    return align[alignment]
+
+# ========================================================================================
+
+def readJSONData(filePath):
+    data = []
+    if os.path.exists(filePath):
+        with open(filePath, 'r') as file:
+            try:
+                return json.load(file)
+            except json.JSONDecodeError:
+                return data  # Start with an empty list if the file is empty or invalid
+    else:
+        return data  # Create a new list if the file does not exist
+
+# ========================================================================================
+
+def writeJSONData(filePath, data):
+    
+    # Write the json file
+    with open(filePath, 'w') as file:
+        json.dump(data, file, indent=4)
+        
+# ========================================================================================
+
+
+"""Retrieve an action from a menu by its text."""
+
+def getAction(menu, actionName):
+    for action in menu.actions():
+        if action.text() == actionName:
+            return action
+    return None
+    
+
+# ========================================================================================
+    
+"""Create a menu with actions. Creates and returns the menu to be added (Create the list of actions first)
+@parentMenu:    the parent of the menu to be added. Normally would be menubar if not a submenu
+@menuName:      the name of the menu to add.
+@actionList:    A list of dictionaries contaning actions using the createActionDictionary method. 
+    Should contain name, shortcut(if applicable), trigger(if applicable)"""
+    
+def createMenu(parentMenu, menuName, actionList):
+
+    menu = parentMenu.addMenu(f"&{menuName}")
+
+    for item in actionList:
+        if item == "separator":
+            menu.addSeparator()
+                
+        else:
+            action = menu.addAction(f"{item['actionName']}")
+            action.setShortcut(f"{item.get('shortcut', '')}")
+            action.triggered.connect(item.get("trigger"))
+        
+    return menu
+    
+
+# ========================================================================================
+    
+
+"""Create actions for a menu, such as a right click menu. 
+Difference between this and createMenu is createMenu includes the menu as well
+@menuName: the name of the menu to add.
+@actionList: A list of dictionaries containg actions using the createActionDictionarymethod. 
+    Should contain name, shortcut(if applicable), trigger(if applicable) """
+    
+def addActionToMenu(menu, actionList):
+
+    for item in actionList:
+        if item == "separator":
+            menu.addSeparator()
+                
+        else:
+            action = menu.addAction(f"{item['actionName']}")
+            action.setShortcut(f"{item.get('shortcut', '')}")
+            action.triggered.connect(item.get("trigger"))
+        
+    return menu
+
 
 # ========================================================================================
 
 
-def getDialogStyle():
-    return f"""QLabel {{
-                    font-size: 15pt;
-                    background-color #fcfcfc;
-                    color: white;
-                    padding: 10px;
-                }}
-                
-                #dialog {{
-                    background-color: black;
-                }}
-                """
+"""Creates an action that can be used with createMenu for menus. Combines the action name, the shortcut keys, and the trigger"""
 
+def createActionDictionary(actionName, shortcut=None, trigger=None):
+        
+    actionDict = {}
+    actionDict["actionName"] = actionName
+        
+    if shortcut:
+        actionDict["shortcut"] = shortcut
+    if trigger:
+        actionDict["trigger"] = trigger
+            
+    return actionDict
+
+
+# ========================================================================================
+
+"""Safely replace the triggered signal connection for a QAction."""
+    
+def replaceActionTriggeredConnection(action, slot):
+        
+    # Disconnect all existing connections
+    try:
+        action.triggered.disconnect()
+    except RuntimeError:
+        pass
+        
+    # Connect the new slot
+    if slot:    
+        action.triggered.connect(slot)
+        
+
+# ========================================================================================
+
+
+"""Goes through a layout and checks what children are attached to it"""
+
+def checkLayoutChildren(layout):
+
+    for i in range(layout.count()):
+        item = layout.itemAt(i)
+        if item is None:
+            ic(f"Item {i} is None")
+            continue
+        
+        # Check if the item is a widget
+        widget = item.widget()
+        if widget:
+            ic(widget.objectName)
+            ic(type(widget))
+            
+
+# ========================================================================================
+  
+
+def showError(frame):
+                
+    # Set up error label
+    errorLabel = QLabel("invalid format")
+    errorLabel.setStyleSheet("color: red; font-size: 8pt;") 
+
+    if not frame.isVisible():
+        frame.setVisible(True)
+        frame.layout().addWidget(errorLabel)
+
+
+# ========================================================================================
+    
+
+def clearError(frameDict): 
+
+    for frame in frameDict.values():
+        if frame.isVisible():
+            clearLayout(frame.layout())
+            frame.setVisible(False)
+
+
+# ========================================================================================
+    
+
+""" Cleans an input that accepts numbers (float, int). Strips whitespace, makes sure it is positive and converts to type"""
+    
+def cleanConvertedInput(numberType, textInput, errorFrame):
+        
+    if not textInput.strip(): return 0
+        
+    try:
+        if numberType == "float":
+            floatInput = float(textInput)  
+            return abs(floatInput)
+            
+        elif numberType == "int":
+            intInput = int(textInput)  
+            return abs(intInput)
+                
+    except ValueError:
+        showError(errorFrame)
+        return 0
+        
+
+# ========================================================================================       
+
+    
+def getAverage(value, quantity):
+        
+    if value == 0 or quantity == 0:
+        return 0
+        
+    return value / quantity   
+
+
+# ========================================================================================       
+
+
+def checkIconPath(icon_path):
+    if os.path.exists(icon_path):
+        print(f"Icon found at: {icon_path}")
+    else:
+        print(f"Icon NOT found at: {icon_path}")
+
+
+# ========================================================================================       
+
+def getCurrentFunction():
+    """ When placed inside a method, allows printing of the method name without needing to name the method directly. 
+    This means if the method is renamed the reference is automatically updated, providing less coupling """
+
+    frame = sys._getframe(1)
+    function_name = frame.f_code.co_name
+
+    if 'self' in frame.f_locals:
+        obj = frame.f_locals['self']
+        return getattr(obj.__class__, function_name, None)
+
+    if function_name in frame.f_locals:
+        return frame.f_locals[function_name]
+    elif function_name in frame.f_globals:
+        return frame.f_globals[function_name]
+
+    return None

@@ -1,4 +1,7 @@
 from setuptools import setup, find_packages
+import os
+
+os.environ['SETUPTOOLS_ENABLE_FEATURES'] = 'legacy-editable'
 
 setup(
     name='MyHelperLibrary',
