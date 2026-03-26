@@ -2,18 +2,17 @@ from icecream import ic
 import os
 import json
 import sys
+from pathlib import Path
 
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QDateEdit, QPushButton, QSizePolicy, QVBoxLayout, QFrame, QDialog, QMessageBox, QGridLayout
 from PySide6.QtCore import Qt, QDate
 from PySide6.QtGui import QPixmap
 
-
 # ========================================================================================
-
     
 """ A function factory wrapper that serves to bundle the dependent classes 
     without having to include them in the parameter list every time displayView is called.
-    Create the wrapper first: displayView = createDiplayView(viewController, stackedWidget, viewList),
+    Create the wrapper first: displayView = createDisplayView(viewController, stackedWidget, viewList),
     then use like a normal method: self.viewController.displayView("theView")"""
 
 def createDisplayView(viewController, stackedWidget, viewList):
@@ -36,7 +35,6 @@ def createDisplayView(viewController, stackedWidget, viewList):
         
         # Use getattr to get the appropriate method
         method      = getattr(viewController, methodName, None)
-        
         newWindow   = kwargs.pop('newWindow', False)
         
         if method and callable(method):
@@ -78,6 +76,20 @@ def createCloseView(viewController):
 
 # ========================================================================================
 
+""" Gets the installation path if frozen as an .exe, or the directory that houses the compiled runtime directory.
+    This path can be passed to createProgramPathJSONFile to create the versioning JSON for installation management"""
+
+def getProgramPath():
+        
+    if getattr(sys, 'frozen', False):
+        # Running as compiled executable
+        return Path(sys.executable).parent
+    else:
+        # Running as script
+        return Path(sys.argv[0]).resolve().parent
+
+# ========================================================================================
+
 """ For updates and versioning the path to installation needs to be known before the version can be replaced.
         This creates a JSON file in the app dirs directory; a platform specific path where user configuration files can be stored.
         For windows: 'C:\\Users\\<user>\\AppData\\Local\\<appAuthor>\\<appName>'
@@ -86,20 +98,18 @@ def createCloseView(viewController):
 def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
 
     if firstTimeDatabase:
-        import pathlib
+        
         from platformdirs import user_config_dir
 
         # Get the full path to the program installation
-        programPath     = programPath
         configFilePath  = os.path.join(programPath, "JSON/config.json")
-
 
         # Write a configuration file to store the path to the installation. 
         # Store the file in the platform-appropriate user configuration directory using appdirs
         appName   = appName
         appAuthor = "Kieran" 
     
-        installationPath = pathlib.Path(user_config_dir(appName, appAuthor))
+        installationPath = Path(user_config_dir(appName, appAuthor))
         os.makedirs(installationPath, exist_ok=True)
     
         filePath = installationPath / "installation_path.json"
@@ -110,9 +120,7 @@ def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
         # Write the file
         writeJSONData(filePath, pathData)
 
-
 # ========================================================================================
-
 
 """ Creates a pixmap from a given filename, connecting the filepath to an Images folder in the directory. 
 Sets to the given width and height"""
@@ -129,9 +137,7 @@ def loadImage(fileName, width, height):
         
     return pixmap
 
-
 # ========================================================================================
-
 
 # Create a dictionary for all the records returned from a model query
 def createDictionaryList(rows, cursorDescription) -> list:
@@ -155,7 +161,6 @@ def createDictionaryList(rows, cursorDescription) -> list:
 
 # ========================================================================================
 
-
 # Create a dictionary for a single record
 def createSingleRecordDictionary(category, cursorDescription) -> dict:
     
@@ -169,9 +174,7 @@ def createSingleRecordDictionary(category, cursorDescription) -> dict:
 
         return rowDict
 
-
 # ========================================================================================
-
 
 def createWidget(widgetType: str, text: str=None, objectName=None, toolTip=None, sizePolicy: tuple[str, str]=None, align=None):
     
@@ -204,10 +207,17 @@ def createWidget(widgetType: str, text: str=None, objectName=None, toolTip=None,
         
     return item
 
+# ========================================================================================
+
+""" Add multiple widgets at once """
+def addWidgets(layout, *widgets):
+    for widget in widgets:
+        layout.addWidget(widget)
+    
+    return layout
 
 # ========================================================================================
-    
-    
+
 def clearLayout(layout):
     ic("clearLayout")
 
@@ -215,10 +225,8 @@ def clearLayout(layout):
         item = layout.takeAt(0)
         if item.widget():
             item.widget().deleteLater()      
-                
 
 # ========================================================================================
-
 
 def clearStackedLayout(viewList, stackedWidget):
     ic("clearStackedLayout")
@@ -231,9 +239,7 @@ def clearStackedLayout(viewList, stackedWidget):
         stackedWidget.removeWidget(widget)
         widget.deleteLater()      
                 
-
 # ========================================================================================
-  
 
 """ Removes a specific widgetfrom a layout """
 def removeWidgetFromLayout(layout, removeWidget):
@@ -247,17 +253,17 @@ def removeWidgetFromLayout(layout, removeWidget):
         if item.widget() == removeWidget:
             # Remove the widget from the layout
             layout.removeWidget(removeWidget)
+            removeWidget.setParent(None)
             
-            # Optionally, delete the widget
+            # delete the widget
             removeWidget.deleteLater()
             
-            # Break the loop as we found the widget
+            # widget found, break the loop
             break
         
 
 # ========================================================================================
   
-
 """ Removes any instances of a class from a layout """
 def removeClassFromLayout(layout, removeClass: type):
     
@@ -275,7 +281,6 @@ def removeClassFromLayout(layout, removeClass: type):
             widget.deleteLater()
 
             continue   
-        
 
 # ========================================================================================
   
@@ -317,6 +322,8 @@ def createCustomDialog(title, message, width, height, style):
     
 # ========================================================================================
 
+""" Simple choice dialog with default size and style 
+"""
 def createChoiceDialog(windowTitle, message):
     
     messageBox = QMessageBox()
@@ -332,6 +339,8 @@ def createChoiceDialog(windowTitle, message):
 
 # ========================================================================================
 
+""" More customizable options for the choice dialog. Can set size and style
+"""
 def createCustomChoiceDialog(title, message, width, height, style):
 
     dialog = QDialog(objectName="dialog")
@@ -491,7 +500,6 @@ def writeJSONData(filePath, data):
         
 # ========================================================================================
 
-
 """Retrieve an action from a menu by its text."""
 
 def getAction(menu, actionName):
@@ -499,7 +507,6 @@ def getAction(menu, actionName):
         if action.text() == actionName:
             return action
     return None
-    
 
 # ========================================================================================
     
@@ -527,9 +534,7 @@ def createMenu(parentMenu, menuName, actionList):
         
     return menu
     
-
 # ========================================================================================
-    
 
 """Create actions for a menu, such as a right click menu. 
 Difference between this and createMenu is createMenu includes the menu as well
@@ -553,9 +558,7 @@ def addActionToMenu(menu, actionList):
         
     return menu
 
-
 # ========================================================================================
-
 
 """Creates an action that can be used with createMenu for menus. Combines the action name, the shortcut keys, and the trigger"""
 
@@ -570,7 +573,6 @@ def createActionDictionary(actionName, shortcut=None, trigger=None):
         actionDict["trigger"] = trigger
             
     return actionDict
-
 
 # ========================================================================================
 
@@ -587,13 +589,10 @@ def replaceActionTriggeredConnection(action, slot):
     # Connect the new slot
     if slot:    
         action.triggered.connect(slot)
-        
 
 # ========================================================================================
 
-
 """Goes through a layout and checks what children are attached to it"""
-
 def checkLayoutChildren(layout):
 
     for i in range(layout.count()):
@@ -608,10 +607,8 @@ def checkLayoutChildren(layout):
             ic(widget.objectName)
             ic(type(widget))
             
-
 # ========================================================================================
   
-
 def showError(frame):
                 
     # Set up error label
@@ -622,9 +619,7 @@ def showError(frame):
         frame.setVisible(True)
         frame.layout().addWidget(errorLabel)
 
-
 # ========================================================================================
-    
 
 def clearError(frameDict): 
 
@@ -633,12 +628,10 @@ def clearError(frameDict):
             clearLayout(frame.layout())
             frame.setVisible(False)
 
-
 # ========================================================================================
     
-
-""" Cleans an input that accepts numbers (float, int). Strips whitespace, makes sure it is positive and converts to type"""
-    
+""" Cleans an input that accepts numbers (float, int). Strips whitespace, makes sure it is positive and converts to type
+"""   
 def cleanConvertedInput(numberType, textInput, errorFrame):
         
     if not textInput.strip(): return 0
@@ -656,10 +649,8 @@ def cleanConvertedInput(numberType, textInput, errorFrame):
         showError(errorFrame)
         return 0
         
-
 # ========================================================================================       
 
-    
 def getAverage(value, quantity):
         
     if value == 0 or quantity == 0:
@@ -667,9 +658,7 @@ def getAverage(value, quantity):
         
     return value / quantity   
 
-
 # ========================================================================================       
-
 
 def checkIconPath(icon_path):
     if os.path.exists(icon_path):
@@ -682,7 +671,8 @@ def checkIconPath(icon_path):
 
 def getCurrentFunction():
     """ Must be placed inside a method within a class. Allows printing of the method name without needing to name the method directly. 
-    This means if the method is renamed the reference is automatically updated, providing less coupling """
+        This means if the method is renamed the reference is automatically updated, providing less coupling 
+    """
 
     frame = sys._getframe(1)
     function_name = frame.f_code.co_name

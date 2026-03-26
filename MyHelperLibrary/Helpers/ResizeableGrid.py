@@ -5,9 +5,7 @@ from PySide6.QtWidgets import QWidget, QGridLayout
 from PySide6.QtCore import Qt, QEvent, QTimer, Signal
 from PySide6.QtGui import QCursor
 
-
 # =============================================================================================
-
 
 class Direction(Enum):
 
@@ -15,7 +13,6 @@ class Direction(Enum):
     VERTICAL        = auto()
     
 # =============================================================================================
-
 
 """ A grid that contains resizable frames. 
     Can be either horizontal frames, where the resize divider goes left/right, 
@@ -70,9 +67,7 @@ class ResizeableGrid(QWidget):
 
         self.installEventFilter(self)
 
-
     # ========================================================================================    
-
 
     def trackMousePosition(self):
         pos             = QCursor.pos()
@@ -118,7 +113,6 @@ class ResizeableGrid(QWidget):
 
     # ========================================================================================   
 
-
     def eventFilter(self, obj, event):
 
         if event.type() == QEvent.MouseButtonPress:
@@ -130,7 +124,6 @@ class ResizeableGrid(QWidget):
     
             
     # ========================================================================================   
-
 
     def MousePressHandler(self, event):
         ic("mouse press")
@@ -166,9 +159,7 @@ class ResizeableGrid(QWidget):
 
                 self.combinedHeight     = self.resizingFrames[0].height() + self.resizingFrames[1].height()
             
-
     # ========================================================================================   
-
 
     def mouseMoveEvent(self, event):
         ic("mouse move")
@@ -210,7 +201,6 @@ class ResizeableGrid(QWidget):
 
     # ========================================================================================   
 
-
     def mouseReleaseEvent(self, event):
         ic("mouse release")
         if event.button() == Qt.LeftButton:
@@ -233,10 +223,8 @@ class ResizeableGrid(QWidget):
                         if widget == checkWidget:
                             return colNum
 
-
     # ========================================================================================   
      
-
     # Find the row number of the frame that is being moved to move all frames in the row at once
     def getRowNumber(self, checkWidget):
         for rowNum in range(self.grid.rowCount()):
@@ -250,7 +238,6 @@ class ResizeableGrid(QWidget):
 
     # ========================================================================================   
      
-
     def getColumnWidgets(self, colNum):
         
         widgets = []
@@ -262,7 +249,6 @@ class ResizeableGrid(QWidget):
                     widgets.append(widget)
         return widgets
     
-
     # ========================================================================================   
            
     def getRowWidgets(self, rowNum):
@@ -276,7 +262,6 @@ class ResizeableGrid(QWidget):
                     widgets.append(widget)
         return widgets
     
-
     # ========================================================================================  
 
     def resizeEvent(self, event):
@@ -291,7 +276,6 @@ class ResizeableGrid(QWidget):
 
 
     # ========================================================================================  
-
 
     def adjustColumnsOnWindowResize(self):
 
@@ -331,9 +315,7 @@ class ResizeableGrid(QWidget):
             for widget in widgets:
                 widget.setFixedWidth(newWidth)
 
-
     # ========================================================================================  
-
 
     def adjustRowsOnWindowResize(self):
 

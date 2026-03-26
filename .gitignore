@@ -1,0 +1,12 @@
+.vs/
+TestResults/
+.pytest_cache
+__pycache__/
+*.pyc
+MyHelperLibrary/__pycache__
+MyHelperLibrary/.pytest_cache
+MyHelperLibrary/build
+MyHelperLibrary/dist
+MyHelperLibrary/App_BuildRelease
+MyHelperLibrary/App_Versions
+MyHelperLibrary/Logs

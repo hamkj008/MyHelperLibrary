@@ -9,16 +9,13 @@ from MyHelperLibrary.Helpers.HelperMethods import createLayoutFrame, createWidge
 
 # =============================================================================================
 
-
-
 class CustomWindow(QMainWindow):
 
-    def __init__(self, windowName, windowIcon, addMenubar=False):
+    def __init__(self, windowName: str, windowIcon: str, addMenubar: bool=False):
         super().__init__()
 
-        self.windowName = windowName
         self.windowIcon = windowIcon
-
+        
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.menubarHeight = 25
 
@@ -28,12 +25,13 @@ class CustomWindow(QMainWindow):
         else:
             self.libraryDirectory = os.path.dirname(os.path.abspath(__file__))  # Normal script path
 
-
+        
         self.windowIconSize     = QPoint(25, 25)
         self.btnIconSize        = QPoint(25, 25)
 
         # Custom title bar
-        self.createTitleBar(windowName, windowIcon)
+        self.createTitleBar(windowName, self.windowIcon)
+        
 
         # Primary container 
         self.containerWidget = QWidget(objectName="containerWidget")
@@ -70,15 +68,13 @@ class CustomWindow(QMainWindow):
         self.mouseTrackingTimer.timeout.connect(self.trackMousePosition)
         self.mouseTrackingTimer.start(300)  # Every 30 ms
 
-
     # =============================================================================================
 
-
-    def createTitleBar(self, windowName, windowIcon):
+    def createTitleBar(self, windowName: str, windowIcon: str):
 
         self.titleBar   = QWidget(self, objectName="titleBar")
         titleLayout     = QHBoxLayout(self.titleBar)
-        titleLayout.setContentsMargins(10,0,0,0)
+        titleLayout.setContentsMargins(10, 2, 2, 2)
         self.titleBar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         self.iconLabel = QLabel(objectName="windowIcon")
@@ -109,25 +105,19 @@ class CustomWindow(QMainWindow):
         self.maxBtn.clicked.connect(self.toggleMaximize)
         self.closeBtn.clicked.connect(self.close_window)
 
-
     # =============================================================================================
-
 
     def main(self):
         self.show()
-
         
     # =============================================================================================
-
 
     def setWindowIconSize(self, newIconSize):
 
         self.windowIconSize = newIconSize
         self.iconLabel.setPixmap(QIcon(self.windowIcon).pixmap(self.windowIconSize.x() , self.windowIconSize.y()))
 
-
     # =============================================================================================
-
 
     def setButtonIconSize(self, newButtonSize):
         ic("changeIconSize")
@@ -137,14 +127,11 @@ class CustomWindow(QMainWindow):
         self.minBtn.setFixedSize(self.btnIconSize.x(), self.btnIconSize.y())
         self.maxBtn.setFixedSize(self.btnIconSize.x(), self.btnIconSize.y())
         self.closeBtn.setFixedSize(self.btnIconSize.x(), self.btnIconSize.y())
- 
 
     # =============================================================================================
 
-
     def minimizeWindow(self):
         self.showMinimized()
-
 
     # =============================================================================================
 
@@ -156,9 +143,7 @@ class CustomWindow(QMainWindow):
 
         return super().resizeEvent(event)
 
-
     # =============================================================================================
-
 
     def toggleMaximize(self):
 
@@ -170,16 +155,12 @@ class CustomWindow(QMainWindow):
             self.showMaximized()
             self.maxBtn.setIcon(QIcon(os.path.join(self.libraryDirectory, "icons", "restore_down.png")))
 
-
     # =============================================================================================
-
 
     def close_window(self):
         self.close()
 
-
     # =============================================================================================
-
 
     def trackMousePosition(self):
         pos = QCursor.pos()
@@ -192,9 +173,7 @@ class CustomWindow(QMainWindow):
         else:
             self.setCursor(Qt.ArrowCursor)
 
-
     # =============================================================================================
-
 
     def mousePressEvent(self, event):
 
@@ -218,7 +197,6 @@ class CustomWindow(QMainWindow):
 
     # =============================================================================================
 
-
     def mouseMoveEvent(self, event):
 
         if self.resizing:
@@ -229,9 +207,7 @@ class CustomWindow(QMainWindow):
             # Drag the window
             self.move(event.globalPos() - self.dragPosition)
 
-
     # =============================================================================================
-
 
     def mouseReleaseEvent(self, event):
 
@@ -239,9 +215,7 @@ class CustomWindow(QMainWindow):
         self.resizing = False
         self.setCursor(Qt.ArrowCursor)
 
-    
     # =============================================================================================
-
 
     """Check if the mouse is near any edge or corner of the window."""
     
@@ -273,9 +247,7 @@ class CustomWindow(QMainWindow):
  
         return direction
 
-
     # =============================================================================================
-
 
     """Returns the appropriate cursor for the resize direction."""
     def changeCursor(self, direction):
@@ -294,9 +266,7 @@ class CustomWindow(QMainWindow):
 
         return Qt.ArrowCursor
 
-
     # =============================================================================================
-
 
     """Resize the window based on mouse movement."""
     def resizeWindow(self):
@@ -330,7 +300,6 @@ class CustomWindow(QMainWindow):
 
         elif self.resizeDirection == 'bottomRight':
             self.setGeometry(self.x(), self.initialPosition.y() - self.initialHeight, self.initialWidth + difference.x(), self.initialHeight + difference.y())
-
 
     # =============================================================================================
 
