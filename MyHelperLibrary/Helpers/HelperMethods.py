@@ -46,7 +46,7 @@ def createDisplayView(viewController, stackedWidget, viewList):
             
         else:
             ic(f"No method found for display{viewToDisplay}")
-         
+    
     return displayViewWrapper
 
 # ========================================================================================
@@ -95,7 +95,7 @@ def getProgramPath():
         For windows: 'C:\\Users\\<user>\\AppData\\Local\\<appAuthor>\\<appName>'
         The version can then be compared and then the new version can be replaced at the installation path. Will run once on first install """
 
-def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
+def createProgramPathJSONFile(appName: str, programPath: str, firstTimeDatabase: bool):
 
     if firstTimeDatabase:
         
@@ -125,7 +125,7 @@ def createProgramPathJSONFile(appName, programPath, firstTimeDatabase):
 """ Creates a pixmap from a given filename, connecting the filepath to an Images folder in the directory. 
 Sets to the given width and height"""
 
-def loadImage(fileName, width, height):
+def loadImage(fileName: str, width: int, height: int) -> QPixmap:
         
     imageFolder = 'Images' 
     imagePath = os.path.join(imageFolder, fileName)
@@ -139,12 +139,11 @@ def loadImage(fileName, width, height):
 
 # ========================================================================================
 
-# Create a dictionary for all the records returned from a model query
 def createDictionaryList(rows, cursorDescription) -> list:
-        
+    """ Create a dictionary for all the records returned from a model query
+    """
     # -- Create dictionary --
-    columnNames = [description[0] for description in cursorDescription]
-
+    columnNames     = [description[0] for description in cursorDescription]
     resultsDictList = []
 
     # Zip the column names and results together into a dictionary list
@@ -165,8 +164,7 @@ def createDictionaryList(rows, cursorDescription) -> list:
 def createSingleRecordDictionary(category, cursorDescription) -> dict:
     
     columnNames = [description[0] for description in cursorDescription]
-    
-    rowDict = {}
+    rowDict     = {}
 
     if category is not None:
         for columnName, value in zip(columnNames, category):
@@ -176,7 +174,7 @@ def createSingleRecordDictionary(category, cursorDescription) -> dict:
 
 # ========================================================================================
 
-def createWidget(widgetType: str, text: str=None, objectName=None, toolTip=None, sizePolicy: tuple[str, str]=None, align=None):
+def createWidget(widgetType: str, text: str=None, objectName: str=None, toolTip=None, sizePolicy: tuple[str, str]=None, align=None):
     
     item = None
     if widgetType == "label":
@@ -204,14 +202,14 @@ def createWidget(widgetType: str, text: str=None, objectName=None, toolTip=None,
     if align:
         item.setAlignment(getAlignMap(align))
 
-        
     return item
 
 # ========================================================================================
 
-""" Add multiple widgets at once """
-def addWidgets(layout, *widgets):
-    for widget in widgets:
+def addWidgets(layout, widgetList: list):
+    """ Add multiple widgets at once 
+    """
+    for widget in widgetList:
         layout.addWidget(widget)
     
     return layout
@@ -219,7 +217,6 @@ def addWidgets(layout, *widgets):
 # ========================================================================================
 
 def clearLayout(layout):
-    ic("clearLayout")
 
     while layout.count():
         item = layout.takeAt(0)
@@ -229,8 +226,7 @@ def clearLayout(layout):
 # ========================================================================================
 
 def clearStackedLayout(viewList, stackedWidget):
-    ic("clearStackedLayout")
-   
+
     for key in viewList.keys():
         viewList[key] = None
 
@@ -241,9 +237,9 @@ def clearStackedLayout(viewList, stackedWidget):
                 
 # ========================================================================================
 
-""" Removes a specific widgetfrom a layout """
 def removeWidgetFromLayout(layout, removeWidget):
-    
+    """ Removes a specific widget from a layout 
+    """
     # Iterate through the items in the layout
     item_count = layout.count()
     
@@ -260,10 +256,9 @@ def removeWidgetFromLayout(layout, removeWidget):
             
             # widget found, break the loop
             break
-        
 
 # ========================================================================================
-  
+
 """ Removes any instances of a class from a layout """
 def removeClassFromLayout(layout, removeClass: type):
     
@@ -283,12 +278,10 @@ def removeClassFromLayout(layout, removeClass: type):
             continue   
 
 # ========================================================================================
-  
-def createCustomDialog(title, message, width, height, style):
-    """
-        Customizable dialog box
-    """
 
+def createCustomDialog(title, message: str, width: int, height: int, style: str):
+    """ Customizable dialog box
+    """
     dialog = QDialog(objectName="dialog")
     dialog.setWindowTitle(title)
     dialog.setMinimumSize(width, height)
@@ -322,10 +315,9 @@ def createCustomDialog(title, message, width, height, style):
     
 # ========================================================================================
 
-""" Simple choice dialog with default size and style 
-"""
 def createChoiceDialog(windowTitle, message):
-    
+    """ Simple choice dialog with default size and style 
+    """    
     messageBox = QMessageBox()
     messageBox.setMinimumSize(200, 200)
     messageBox.setWindowTitle(windowTitle)
@@ -339,10 +331,9 @@ def createChoiceDialog(windowTitle, message):
 
 # ========================================================================================
 
-""" More customizable options for the choice dialog. Can set size and style
-"""
-def createCustomChoiceDialog(title, message, width, height, style):
-
+def createCustomChoiceDialog(title, message: str, width: int, height: int, style: str):
+    """ More customizable options for the choice dialog. Can set size and style
+    """
     dialog = QDialog(objectName="dialog")
     dialog.setWindowTitle(title)
     dialog.setMinimumSize(width, height)
@@ -360,7 +351,7 @@ def createCustomChoiceDialog(title, message, width, height, style):
 
     # Create a QDialogButtonBox with OK and Cancel buttons
     buttonFrame = createLayoutFrame(align="center",  margins=(0,0,0,0))
-    okBtn = createWidget("button", text="Ok")
+    okBtn       = createWidget("button", text="Ok")
     cancelBtn = createWidget("button", text="Cancel")
     buttonFrame.layout().addWidget(okBtn)
     buttonFrame.layout().addWidget(cancelBtn)
@@ -375,12 +366,10 @@ def createCustomChoiceDialog(title, message, width, height, style):
         
     return dialog.exec() == QDialog.Accepted
 
-
 # ========================================================================================
 
 def createErrorLayout(widget):
-    """ 
-        Creates a frame containing an error frame, that error messages can be added to
+    """ Creates a frame containing an error frame, that error messages can be added to
     """
     
     frame = createLayoutFrame("v", margins=(0,0,0,0)) 
@@ -395,16 +384,15 @@ def createErrorLayout(widget):
     
 # ========================================================================================
 
-def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizePolicy: tuple[str, str]=None, align=None, margins: tuple[int, int, int, int]=None):
-    """
-        Creates a frame that also has a layout attached
+def createLayoutFrame(layoutType=None, objectName: str=None, spacing: int=None, sizePolicy: tuple[str, str]=None, align: str=None, margins: tuple[int, int, int, int]=None):
+    """ Creates a frame that also has a layout attached
     """
 
     frame = QFrame(objectName=objectName)
     
     if layoutType == "vertical" or layoutType == "v":
         layout = QVBoxLayout()
-     
+    
     elif layoutType == "g" or layoutType == "grid":
         layout = QGridLayout()
 
@@ -416,7 +404,7 @@ def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizeP
 
     if sizePolicy:
         frame.setSizePolicy(getSizePolicyMap(sizePolicy))
-       
+    
     if align:
         layout.setAlignment(getAlignMap(align))
         
@@ -426,7 +414,6 @@ def createLayoutFrame(layoutType=None, objectName=None, spacing: int=None, sizeP
     frame.setLayout(layout)
     
     return frame
-
 
 # ========================================================================================
 
@@ -462,20 +449,29 @@ def keyCheck(value):
     
 # ========================================================================================
 
-def getSizePolicyMap(sizePolicy):
+def getSizePolicyMap(sizePolicy: tuple[str,str]|None) -> QSizePolicy:
     policyMap = {"fixed" : QSizePolicy.Fixed, "expanding" : QSizePolicy.Expanding}
-        
+    
+    if not sizePolicy:
+        return QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+
     # Using get() on a dictionary, if sizePolicy[0] is not a key in the dictionary, it defaults to QSizePolicy.Preferred
-    customSizePolicy = QSizePolicy(policyMap.get(sizePolicy[0], QSizePolicy.Preferred), policyMap.get(sizePolicy[1], QSizePolicy.Preferred))
-            
-    return customSizePolicy
+    if len(sizePolicy) == 1:
+        return QSizePolicy(policyMap.get(sizePolicy[0].lower(), QSizePolicy.Preferred), policyMap.get(sizePolicy[0].lower(), QSizePolicy.Preferred))
+    else:
+        return QSizePolicy(policyMap.get(sizePolicy[0].lower(), QSizePolicy.Preferred), policyMap.get(sizePolicy[1].lower(), QSizePolicy.Preferred))
 
 # ========================================================================================
 
-def getAlignMap(alignment):
+ALIGN_MAP = {"left" : Qt.AlignLeft, "right" : Qt.AlignRight, "center" : Qt.AlignCenter}
+
+def getAlignMap(alignment: str):
     
-    align = {"left" : Qt.AlignLeft, "right" : Qt.AlignRight, "center" : Qt.AlignCenter}
-    return align[alignment]
+    try:
+        return ALIGN_MAP[alignment.lower()]
+    
+    except(KeyError, AttributeError):
+        raise ValueError(f"Invalid Alignment passed to {getCurrentFunction()}. Alignment was: {alignment}")
 
 # ========================================================================================
 

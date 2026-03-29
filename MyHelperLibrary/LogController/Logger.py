@@ -4,6 +4,7 @@ import sys
 import time
 import os
 import io
+import glob
 
 # ========================================================================================
 
@@ -11,8 +12,8 @@ def setupLogger(obj, programName, logLevel=None):
     """
         Setup the root logger for any object
     """
-    log_directory = "Logs"
-    os.makedirs(log_directory, exist_ok=True)
+    logDirectory = "Logs"
+    os.makedirs(logDirectory, exist_ok=True)
 
     if not logLevel:
         logLevel = "DEBUG"
@@ -40,14 +41,12 @@ def setupLogger(obj, programName, logLevel=None):
     plain_formatter = logging.Formatter('%(asctime)s - %(levelname)s: %(message)s')
     
     # Console handler with colors
-    utf8_stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    utf8_stdout     = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     console_handler = logging.StreamHandler(utf8_stdout)
     console_handler.setFormatter(colored_formatter)
     
     # File handler without colors
-    file_handler = logging.FileHandler(f'{log_directory}/{programName}_{int(time.time())}.log',
-                                            encoding='utf-8'
-                                      )
+    file_handler = TimestampRotatingFileHandler(logDirectory, programName, maxFiles=10)
 
     file_handler.setFormatter(plain_formatter)
     
@@ -82,5 +81,27 @@ def _log_method(self, level: str, message: str):
     numeric_level = getattr(logging, level, logging.DEBUG)
         
     self.logger.log(numeric_level, message)
+
+# ========================================================================================
+
+class TimestampRotatingFileHandler(logging.FileHandler):
+    """File handler that keeps only the N most recent log files. 
+        Ensures that the Logger doesn't write infinite log files
+    """
+    def __init__(self, logDirectory, programName: str, maxFiles: int=10):
+
+        filepath = os.path.join(logDirectory, programName)
+        self._cleanup_old_logs(filepath, maxFiles)  # Clean before creating new one
+        super().__init__(f'{filepath}_{int(time.time())}.log', encoding='utf-8')
+
+    # ---------------
+
+    def _cleanup_old_logs(self, filepath: str, maxFiles: int):
+        logFiles   = sorted(glob.glob(f'{filepath}_*.log'))  # Sorted by timestamp in name (oldest first)
+        
+        while len(logFiles) >= maxFiles:
+            oldest = logFiles.pop(0)
+            os.remove(oldest)
+
 
 # ========================================================================================
